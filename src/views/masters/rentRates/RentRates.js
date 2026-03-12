@@ -201,7 +201,7 @@ const RentRates = () => {
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader className="d-flex justify-content-between align-items-center">
-            <strong>Cold Storage Rent Rate Fixataion</strong>
+            <strong>Cold Storage Rent Price Fixation (Per Unit)</strong>
             <CButton color="primary" size="sm" onClick={handleAdd}>
               <CIcon icon={cilPlus} className="me-2" />
               Add Rent Rate
@@ -234,7 +234,7 @@ const RentRates = () => {
                     <CTableHeaderCell scope="col">Item</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Unit</CTableHeaderCell>
                     <CTableHeaderCell scope="col">location</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">Rate (₹)</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">Price per Unit (₹)</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Status</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
                   </CTableRow>
@@ -363,7 +363,7 @@ const RentRates = () => {
               </CCol>
               <CCol md={6}>
                 <CFormLabel htmlFor="rate">
-                  Rate (₹) <span className="text-danger">*</span>
+                  Price per Unit (₹) <span className="text-danger">*</span>
                 </CFormLabel>
                 <CFormInput
                   type="number"

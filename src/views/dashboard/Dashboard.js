@@ -13,29 +13,34 @@ import {
   cilStorage,
 } from '@coreui/icons'
 
+import { dashboardApi } from '../../api/reservationApi'
+
 const Dashboard = () => {
   const [loading, setLoading] = useState(true)
-
-  // Placeholder stats - since transaction models are not yet created
   const [stats, setStats] = useState({
     purchase: { weight: 0, bags: 0, amount: 0 },
     sales: { weight: 0, bags: 0, amount: 0 },
     stock: { weight: 0, bags: 0, amount: 0 },
   })
 
-  useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => {
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
+
+  const fetchStats = async () => {
+    try {
+      const response = await dashboardApi.getStats({ year: selectedYear })
+      setStats(response.data)
+    } catch (error) {
+      console.error('Error fetching dashboard stats:', error)
+    } finally {
       setLoading(false)
-      // Set some dummy data for preview
-      setStats({
-        purchase: { weight: 1250.5, bags: 2500, amount: 750000 },
-        sales: { weight: 800.75, bags: 1600, amount: 520000 },
-        stock: { weight: 449.75, bags: 900, amount: 230000 },
-      })
-    }, 1000)
-    return () => clearTimeout(timer)
-  }, [])
+    }
+  }
+
+  useEffect(() => {
+    fetchStats()
+    const interval = setInterval(fetchStats, 30000)
+    return () => clearInterval(interval)
+  }, [selectedYear])
 
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('en-IN', {
@@ -99,9 +104,26 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-wrapper">
-      <div className="mb-4">
-        <h4 className="fw-bold text-dark">Trading Overview</h4>
-        <p className="text-medium-emphasis">Real-time tracking of your inventory and transactions.</p>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h4 className="fw-bold text-dark mb-1">Trading Overview</h4>
+          <p className="text-medium-emphasis mb-0 small">
+            <span className="live-pulse me-2"></span>
+            Real-time tracking of your inventory and transactions.
+          </p>
+        </div>
+        <div className="d-flex gap-2">
+          <select
+            className="form-select form-select-sm shadow-sm border-0 bg-white"
+            style={{ width: '120px', borderRadius: '8px' }}
+            value={selectedYear}
+            onChange={(e) => { setLoading(true); setSelectedYear(parseInt(e.target.value)) }}
+          >
+            {[2024, 2025, 2026, 2027].map(y => (
+              <option key={y} value={y}>{y}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <CRow className="g-4">
@@ -131,7 +153,7 @@ const Dashboard = () => {
           <CCol xs={12}>
             <CCard className="border-0 bg-light">
               <CCardBody className="p-4 text-center">
-                
+
               </CCardBody>
             </CCard>
           </CCol>

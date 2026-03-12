@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { CCol, CContainer, CRow } from '@coreui/react'
 import { useAuth } from '../../../context/AuthContext'
-import loginBgImage from '../../../assets/coldstorage.png'
 import logo from '../../../assets/logo.png'
+import bg from '../../../assets/bg.jpeg'
 
 // Admin Icon
 const AdminIcon = () => (
@@ -120,8 +120,8 @@ const Login = () => {
           {/* Left Side - Image */}
           <CCol lg={7} className="d-none d-lg-block login-image-section">
             <img
-              src={loginBgImage}
-              alt="location"
+              src={bg}
+              alt="Trading"
               className="login-bg-image"
             />
             <div className="image-overlay"></div>
@@ -136,7 +136,7 @@ const Login = () => {
                 <div className="login-icon">
                   <img src={logo} alt="Logo" className="login-logo" />
                 </div>
-                <h1>Cold Storage Login</h1>
+                <h1>Trading Login</h1>
                 <p>Enter your credentials to continue</p>
               </div>
 
@@ -196,7 +196,7 @@ const Login = () => {
 
               {/* Footer */}
               <div className="login-footer">
-                <p>© 2025 Cold Storage Management System</p>
+                <p>© 2025 Trading Management System</p>
               </div>
             </div>
           </CCol>

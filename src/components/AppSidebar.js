@@ -45,7 +45,7 @@ const AppSidebar = () => {
         <CSidebarBrand to="/">
           {/* <CIcon customClassName="sidebar-brand-full" icon={logo} height={32} />
           <CIcon customClassName="sidebar-brand-narrow" icon={sygnet} height={32} /> */}
-          <h2>trading</h2>
+          <h2>Trading</h2>
         </CSidebarBrand>
         <CCloseButton
           className="d-lg-none"

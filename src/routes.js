@@ -3,6 +3,12 @@ import React from 'react'
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Suppliers = React.lazy(() => import('./views/suppliers/Suppliers'))
 const PurchaseSale = React.lazy(() => import('./views/purchase-sale/PurchaseSale'))
+const LotProcessing = React.lazy(() => import('./views/purchase-sale/LotProcessing'))
+const Sale = React.lazy(() => import('./views/purchase-sale/Sale'))
+const Loan = React.lazy(() => import('./views/purchase-sale/Loan'))
+const MISReport = React.lazy(() => import('./views/purchase-sale/MISReport'))
+const LotTransfer = React.lazy(() => import('./views/purchase-sale/LotTransfer'))
+
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -60,7 +66,13 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/parties', name: 'Parties', element: Suppliers },
-  { path: '/purchase-sale', name: 'Purchase Sale', element: PurchaseSale },
+  { path: '/purchase-sale', name: 'Purchase', element: PurchaseSale },
+  { path: '/lot-processing', name: 'Lot Processing', element: LotProcessing },
+  { path: '/sale', name: 'Sale', element: Sale },
+  { path: '/loan', name: 'Loan', element: Loan },
+  { path: '/mis-report', name: 'MIS Report', element: MISReport },
+  { path: '/lot-transfer', name: 'Lot Transfer', element: LotTransfer },
+
 
 
   { path: '/theme', name: 'Theme', element: Colors, exact: true },

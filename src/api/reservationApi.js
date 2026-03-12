@@ -16,6 +16,19 @@ api.interceptors.request.use(
         if (token) {
             config.headers.Authorization = `Bearer ${token}`
         }
+
+        // ✅ Handle Impersonation Header
+        const storedImpersonation = localStorage.getItem('impersonation')
+        if (storedImpersonation) {
+            try {
+                const impersonationData = JSON.parse(storedImpersonation)
+                if (impersonationData?.location?.id) {
+                    config.headers['X-location-Id'] = impersonationData.location.id
+                }
+            } catch (e) {
+                console.error('Error parsing impersonation data:', e)
+            }
+        }
         return config
     },
     (error) => Promise.reject(error),
@@ -38,7 +51,7 @@ export const locationApi = {
 }
 
 export const dashboardApi = {
-    getStats: () => api.get('/dashboard/stats'),
+    getStats: (params) => api.get('/dashboard/stats', { params }),
 }
 
 export const masterApi = {
@@ -61,6 +74,7 @@ export const rentRateApi = {
 }
 
 export const loadingRateApi = {
+    getAll: () => api.get('/loading-rates'),
     getAllAdmin: () => api.get('/loading-rates/admin/all'),
     create: (data) => api.post('/loading-rates', data),
     update: (id, data) => api.put(`/loading-rates/${id}`, data),
@@ -82,6 +96,7 @@ export const taiyariRateApi = {
 }
 
 export const interestRateApi = {
+    getAll: () => api.get('/interest-rates'),
     getAllAdmin: () => api.get('/interest-rates/admin/all'),
     create: (data) => api.post('/interest-rates', data),
     update: (id, data) => api.put(`/interest-rates/${id}`, data),
@@ -102,4 +117,44 @@ export const supplierApi = {
     delete: (id) => api.delete(`/suppliers/${id}`),
 }
 
+export const purchaseApi = {
+    getAll: (year) => api.get('/purchases', { params: { year } }),
+    getAllAdmin: (year) => api.get('/purchases/admin/all', { params: { year } }),
+    getById: (id, year) => api.get(`/purchases/${id}`, { params: { year } }),
+    generateBillNo: (year, locationId) => api.post('/purchases/generate-bill-no', { locationId }, { params: { year } }),
+    create: (data) => api.post('/purchases', data),
+    update: (id, data, year) => api.put(`/purchases/${id}`, data, { params: { year } }),
+    delete: (id, year) => api.delete(`/purchases/${id}`, { params: { year } }),
+    lotTransfer: (data) => api.post('/purchases/lot-transfer', data),
+    getTransferHistory: (params) => api.get('/purchases/transfer-history/all', { params }),
+}
+
+export const saleApi = {
+    getAll: (year, locationId) => api.get('/sales', { params: { year, locationId } }),
+    getGrouped: (year) => api.get('/sales/grouped', { params: { year } }),
+    getAvailablePurchases: (year) => api.get('/sales/available-purchases', { params: { year } }),
+    getById: (id) => api.get(`/sales/${id}`),
+    create: (data) => api.post('/sales', data),
+    update: (id, data) => api.put(`/sales/${id}`, data),
+    delete: (id) => api.delete(`/sales/${id}`),
+}
+
+export const loanApi = {
+    getAll: (year) => api.get('/loans', { params: { year } }),
+    create: (data) => api.post('/loans', data),
+    update: (id, data) => api.put(`/loans/${id}`, data),
+    delete: (id) => api.delete(`/loans/${id}`),
+    getByPurchase: (purchaseId) => api.get(`/loans/purchase/${purchaseId}`),
+}
+
+export const lotProcessingApi = {
+    create: (data) => api.post('/lot-processings', data),
+    update: (id, data) => api.patch(`/lot-processings/${id}`, data),
+    delete: (id) => api.delete(`/lot-processings/${id}`),
+    getByPurchase: (purchaseId) => api.get(`/lot-processings/purchase/${purchaseId}`),
+    getAll: (params) => api.get('/lot-processings', { params }),
+}
+
+
 export default api
+

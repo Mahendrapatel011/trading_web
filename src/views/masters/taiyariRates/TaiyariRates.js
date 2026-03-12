@@ -161,7 +161,7 @@ const TaiyariRates = () => {
             <CCol xs={12}>
                 <CCard className="mb-4">
                     <CCardHeader className="d-flex justify-content-between align-items-center">
-                        <strong>Taiyari Labour Rate Fixation</strong>
+                        <strong>Taiyari Labour Price Fixation (Per Unit)</strong>
                         <CButton color="primary" size="sm" onClick={handleAdd}>
                             <CIcon icon={cilPlus} className="me-2" />
                             Add Taiyari Rate
@@ -177,7 +177,7 @@ const TaiyariRates = () => {
                                     <CTableHeaderCell>Item</CTableHeaderCell>
                                     <CTableHeaderCell>Unit</CTableHeaderCell>
                                     <CTableHeaderCell>location</CTableHeaderCell>
-                                    <CTableHeaderCell>Rate (₹)</CTableHeaderCell>
+                                    <CTableHeaderCell>Price per Unit (₹)</CTableHeaderCell>
                                     <CTableHeaderCell>Status</CTableHeaderCell>
                                     <CTableHeaderCell>Actions</CTableHeaderCell>
                                 </CTableRow>
@@ -240,7 +240,7 @@ const TaiyariRates = () => {
                                 </CFormSelect>
                             </CCol>
                             <CCol md={6}>
-                                <CFormLabel>Rate (₹) *</CFormLabel>
+                                <CFormLabel>Price per Unit (₹) *</CFormLabel>
                                 <CFormInput type="number" name="rate" value={formData.rate} onChange={handleChange} required />
                             </CCol>
                         </CRow>

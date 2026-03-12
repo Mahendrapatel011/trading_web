@@ -219,14 +219,18 @@ const SuperAdminManagement = () => {
   const handlelocationYearDeleteClick = async (location) => {
     console.log('Year delete clicked for location:', location)
     setSelectedlocationForYearDelete(location)
+    setShowYearDeleteModal(true)
     setLoading(true)
+    setAvailableYears([])
+
     try {
       const response = await locationApi.getAvailableYears(location.id)
       console.log('Available years response:', response)
       const years = response.data.data || []
       setAvailableYears(years)
-      setSelectedYear(years.length > 0 ? years[0].toString() : '')
-      setShowYearDeleteModal(true)
+      if (years.length > 0) {
+        setSelectedYear(years[0].toString())
+      }
     } catch (error) {
       console.error('Error loading years:', error)
       showToast(error.response?.data?.message || 'Failed to load available years', 'error')
@@ -903,26 +907,31 @@ const SuperAdminManagement = () => {
                   onChange={(e) => setSelectedYear(e.target.value)}
                   disabled={loading || availableYears.length === 0}
                 >
-                  <option value="">Select Year</option>
+                  <option value="">{loading ? 'Loading years...' : 'Select Year'}</option>
                   {availableYears.map((year) => (
                     <option key={year} value={year}>
                       {year}
                     </option>
                   ))}
                 </CFormSelect>
-                {availableYears.length === 0 && (
-                  <small className="text-muted">No data found for this location</small>
+                {loading && (
+                  <div className="mt-2 text-primary small">
+                    <CSpinner size="sm" className="me-2" /> Fetching available years...
+                  </div>
+                )}
+                {!loading && availableYears.length === 0 && (
+                  <div className="text-danger small mt-1 font-weight-bold">
+                    ⚠️ No data found for this location in any year.
+                  </div>
                 )}
               </div>
               <div className="alert alert-warning">
                 <strong>Warning:</strong> This will permanently delete all data for year <strong>{selectedYear || 'selected year'}</strong> including:
                 <ul className="mb-0 mt-2">
-                  <li>All reservations</li>
-                  <li>All agreements</li>
-                  <li>All chamber entries</li>
-                  <li>All partial deliveries</li>
-                  <li>All cash receipts</li>
-                  <li>All document counters</li>
+                  <li>All Purchases & Agreement Data</li>
+                  <li>All Sales Records</li>
+                  <li>All Loans & Repayments</li>
+                  <li>All Lot Processing (Taiyari) data</li>
                 </ul>
                 <p className="mb-0 mt-2 text-danger fw-bold">This action cannot be undone!</p>
               </div>
